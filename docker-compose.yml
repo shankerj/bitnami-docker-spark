@@ -16,6 +16,8 @@ services:
     networks: 
       spark:
         ipv4_address: 172.19.0.100
+    volumes:
+      - spark-data:/tmp/spark-data        
   spark-worker-1:
     image: docker.io/bitnami/spark:latest
     container_name: spark-worker1
@@ -34,6 +36,8 @@ services:
     networks: 
       spark:
         ipv4_address: 172.19.0.101
+    volumes:
+      - spark-data:/tmp/spark-data
   spark-worker-2:
     image: docker.io/bitnami/spark:latest
     container_name: spark-worker2
@@ -52,9 +56,18 @@ services:
     networks: 
       spark:
         ipv4_address: 172.19.0.102
+    volumes:
+      - spark-data:/tmp/spark-data
 networks:
   spark:
     driver: bridge
     ipam:
       config: 
         - subnet: 172.19.0.0/16
+volumes:
+  spark-data:
+    driver: local
+    driver_opts: 
+      type: "none"
+      device: /Users/sjanakiraman/dev/spark/spark-data
+      o: bind
